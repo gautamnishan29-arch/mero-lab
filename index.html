@@ -1,40 +1,216 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Haus of Bakes</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haus of Bakes</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body { background:#fff6f9; color:#5a4a4a; transition:0.3s; }
+
+header { background:#f8d7e3; padding:30px 20px; text-align:center; }
+header h1 { font-family:'Playfair Display', serif; font-size:42px; color:#b76e79; }
+header p { margin-top:10px; font-size:16px; color:#7a5c61; }
+
+nav { text-align:center; padding:15px; background:#fff0f5; }
+nav a { margin:0 15px; text-decoration:none; color:#b76e79; font-weight:500; transition:0.3s; }
+nav a:hover { color:#8c4c57; }
+
+.hero { text-align:center; padding:80px 20px; background:linear-gradient(to right,#ffe4ec,#fff6f9); }
+.hero h2 { font-family:'Playfair Display', serif; font-size:36px; margin-bottom:15px; color:#b76e79; }
+.hero p { font-size:18px; margin-bottom:25px; }
+.btn { background-color:#b76e79; color:white; padding:12px 25px; border:none; border-radius:25px; cursor:pointer; font-size:14px; transition:0.3s; }
+.btn:hover { background-color:#8c4c57; }
+
+.section { padding:60px 20px; text-align:center; }
+.section h2 { font-family:'Playfair Display', serif; margin-bottom:40px; font-size:30px; color:#b76e79; }
+
+.products { display:flex; justify-content:center; flex-wrap:wrap; gap:25px; }
+
+.card { background:white; padding:20px; width:260px; border-radius:20px; box-shadow:0 10px 25px rgba(183,110,121,0.15); transition:0.3s; text-align:center; position:relative; }
+.card:hover { transform:translateY(-8px); }
+.card img { width:100%; border-radius:15px; margin-bottom:15px; }
+
+.cart-btn {
+    position:fixed; bottom:20px; right:20px;
+    background:#b76e79; color:white; padding:15px; border-radius:50%; cursor:pointer; font-size:20px; z-index:2000;
+}
+.cart-panel {
+    position:fixed; top:0; right:-400px; width:350px; height:100%; background:white; box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+    padding:20px; overflow-y:auto; transition:0.4s; z-index:2000;
+}
+.cart-panel.active { right:0; }
+.cart-item { display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px; }
+.remove { color:red; cursor:pointer; }
+.total { font-weight:bold; margin-top:20px; }
+
+.about { background:#ffeef3; }
+
+footer { background:#f8d7e3; text-align:center; padding:20px; font-size:14px; color:#7a5c61; }
+
+.fade-in { opacity:0; transform:translateY(40px); transition:1s ease; }
+.fade-in.show { opacity:1; transform:translateY(0); }
+
+@media(max-width:768px){ .products { flex-direction:column; align-items:center; } }
+</style>
 </head>
 <body>
-  <h1>Soft. Sweet. Beautifully Baked.</h1>
 
-  <nav>
+<header>
+    <h1>Haus of Bakes</h1>
+    <p>Soft. Sweet. Beautifully Baked.</p>
+</header>
+
+<nav>
     <a href="#home">Home</a>
     <a href="#menu">Menu</a>
-    <a href="#story">Our Story</a>
+    <a href="#about">Our Story</a>
     <a href="#contact">Contact</a>
-  </nav>
+</nav>
 
-  <h2>Freshly Baked with Love</h2>
-  <p>Where every bite feels like home.</p>
-  <button>Order Now</button>
+<section class="hero fade-in" id="home">
+    <h2>Freshly Baked with Love</h2>
+    <p>Where every bite feels like home.</p>
+    <button class="btn" onclick="toggleCart()">Order Now</button>
+</section>
 
-  <h2>Our Favorites</h2>
-  <h3>Rose Vanilla Cake</h3>
-  <p>Light sponge layered with silky vanilla cream.</p>
+<section class="section fade-in" id="menu">
+    <h2>Our Favorites</h2>
+    <div class="products">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1625045343501-df130c12e3bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3M3wwfDF8c2VhfDJ8fGNhc2V8fHx8fDE2OTE3MzQ1Njk&ixlib=rb-4.0.3&q=80&w=400" alt="Rose Vanilla Cake">
+            <h3>Rose Vanilla Cake</h3>
+            <p>Light sponge layered with silky vanilla cream.</p>
+            <button class="btn" onclick="addToCart('Rose Vanilla Cake',15)">Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Strawberry Dream Pastry">
+            <h3>Strawberry Dream Pastry</h3>
+            <p>Soft cream, fresh strawberries & fluffy layers.</p>
+            <button class="btn" onclick="addToCart('Strawberry Dream Pastry',10)">Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1604908177520-4798568ab67f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Classic Butter Croissant">
+            <h3>Classic Butter Croissant</h3>
+            <p>Golden, flaky & perfectly baked every morning.</p>
+            <button class="btn" onclick="addToCart('Classic Butter Croissant',5)">Add to Cart</button>
+        </div>
+    </div>
+</section>
 
-  <h3>Strawberry Dream Pastry</h3>
-  <p>Soft cream, fresh strawberries & fluffy layers.</p>
+<section class="section about fade-in" id="about">
+    <h2>Our Story</h2>
+    <p>Haus of Bakes was created with a passion for soft aesthetics and even softer pastries. We believe baking is an art of love, warmth, and delicate sweetness.</p>
+</section>
 
-  <h3>Classic Butter Croissant</h3>
-  <p>Golden, flaky & perfectly baked every morning.</p>
+<section class="section fade-in" id="contact">
+    <h2>Visit Us</h2>
+    <p>Email: hello@hausofbakes.com</p>
+    <p>Phone: +1 234 567 890</p>
+    <p>123 Blossom Street, Sweet City</p>
+</section>
 
-  <h2>Our Story</h2>
-  <p>Haus of Bakes was created with a passion for soft aesthetics and even softer pastries...</p>
+<!-- Cart Panel -->
+<div class="cart-panel" id="cartPanel">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div class="total" id="total"></div>
+    <h3 style="margin-top:20px;">Your Details</h3>
+    <input type="text" id="name" placeholder="Your Name">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <textarea id="address" placeholder="Delivery Address"></textarea>
+    <button class="btn" style="width:100%;margin-top:15px;" onclick="placeOrder()">Place Order via WhatsApp</button>
+</div>
 
-  <h2>Visit Us</h2>
-  <p>Email: hello@hausofbakes.com</p>
-  <p>Phone: +1 234 567 890</p>
-  <p>123 Blossom Street, Sweet City</p>
+<!-- Cart Button -->
+<div class="cart-btn" onclick="toggleCart()">🛒</div>
 
-  <p>© 2026 Haus of Bakes | Made with love & sugar</p>
+<footer>
+    © 2026 Haus of Bakes | Made with love & sugar
+</footer>
+
+<script>
+// Fade-in animation
+const faders = document.querySelectorAll('.fade-in');
+window.addEventListener('scroll', () => {
+    faders.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 100){
+            el.classList.add('show');
+        }
+    });
+});
+
+// Cart system
+let cart = [];
+function toggleCart(){
+    document.getElementById("cartPanel").classList.toggle("active");
+}
+
+// Add product to cart
+function addToCart(name, price){
+    let item = cart.find(p => p.name === name);
+    if(item){ item.quantity++; } else { cart.push({name, price, quantity:1}); }
+    updateCart();
+    toggleCart();
+}
+
+// Update cart items
+function updateCart(){
+    let cartDiv = document.getElementById("cartItems");
+    let totalDiv = document.getElementById("total");
+    cartDiv.innerHTML = "";
+    let total = 0;
+    cart.forEach((item,index)=>{
+        total += item.price*item.quantity;
+        cartDiv.innerHTML += `
+            <div class="cart-item">
+                ${item.name} x${item.quantity} - $${item.price*item.quantity}
+                <span class="remove" onclick="removeItem(${index})">✖</span>
+            </div>`;
+    });
+    totalDiv.innerText = "Total: $" + total;
+}
+
+// Remove item from cart
+function removeItem(index){
+    cart.splice(index,1);
+    updateCart();
+}
+
+// Place order via WhatsApp
+function placeOrder(){
+    let name = document.getElementById("name").value;
+    let phone = document.getElementById("phone").value;
+    let address = document.getElementById("address").value;
+
+    if(cart.length===0){ alert("Your cart is empty!"); return; }
+    if(!name || !phone || !address){ alert("Please fill all details!"); return; }
+
+    let message = "🧁 *New Bakery Order* 🧁%0A%0A";
+    cart.forEach(item=>{
+        message += item.name + " x" + item.quantity + " - $" + (item.price*item.quantity) + "%0A";
+    });
+    let total = cart.reduce((sum,item)=> sum + item.price*item.quantity,0);
+    message += "%0A*Total:* $" + total + "%0A%0A";
+    message += "*Name:* " + name + "%0A*Phone:* " + phone + "%0A*Address:* " + address;
+
+    // Replace with your WhatsApp number
+    let whatsappURL = "https://wa.me/9779765501697?text=" + message;
+    window.open(whatsappURL,"_blank");
+
+    // Reset cart
+    cart = [];
+    updateCart();
+    document.getElementById("name").value="";
+    document.getElementById("phone").value="";
+    document.getElementById("address").value="";
+}
+</script>
+
 </body>
 </html>
